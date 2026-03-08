@@ -1,9 +1,10 @@
-export type ProjectType = 
-    | '3D Print / Maker'
-    | 'Electronics / Raspberry Pi'
-    | 'Hardware / IT'
+export type ProjectType =
+    | '3D Printing / CAD'
+    | 'Electronics / Embedded'
     | 'Software / Web'
-    | 'Other / Experimental';
+    | 'Networking / Infrastructure'
+    | 'Home Lab'
+    | 'DevOps / Cloud';
 
 export type ProjectStatus =
     | 'Completed'
