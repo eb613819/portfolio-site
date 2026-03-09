@@ -2,11 +2,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Project } from '../../../interfaces/project.interface';
 import { ProjectCarouselComponent } from '../project-carousel/project-carousel.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-project-card',
   standalone: true,
-  imports: [CommonModule, ProjectCarouselComponent],
+  imports: [CommonModule, ProjectCarouselComponent, MarkdownModule],
   templateUrl: './project-card.component.html',
   styleUrl: './project-card.component.css',
 })

@@ -5,7 +5,7 @@ export interface Experience {
     organization: string;
     startDate: string;
     endDate: string;
-    description: string[];
+    description: string;
     tags?: string[];
     type:ExperienceType;
 }

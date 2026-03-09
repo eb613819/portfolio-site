@@ -18,9 +18,7 @@
         <p><strong>{{ exp.organization }}</strong></p>
         <p>{{ exp.startDate }} to {{ exp.endDate }}</p>
         <div class="card-description" *ngIf="isExpanded(exp)">
-          <ul>
-            <li *ngFor="let d of exp.description">{{ d }}</li>
-          </ul>
+          <markdown [data]="exp.description" />
         </div>
         <div class="tags">
           <span *ngFor="let t of exp.tags" class="tag">{{ t }}</span>

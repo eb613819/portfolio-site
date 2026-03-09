@@ -5,11 +5,12 @@ import { FilterGroup, FilterState } from '../../shared/filter-panel/filter.model
 import { FilterPanelComponent } from '../../shared/filter-panel/filter-panel.component';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '../../services/data.service';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-experience',
   standalone: true,
-  imports: [CommonModule, FilterPanelComponent],
+  imports: [CommonModule, FilterPanelComponent, MarkdownModule],
   templateUrl: './experience.component.html',
   styleUrls: ['./experience.component.css']
 })

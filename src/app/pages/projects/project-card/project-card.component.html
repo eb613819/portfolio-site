@@ -48,9 +48,7 @@
         </div>
         <!-- Expanded Content -->
         <div class="card-description" *ngIf="isExpanded(project)" (click)="$event.stopPropagation()">
-            <ul>
-            <li *ngFor="let d of project.description">{{ d }}</li>
-            </ul>
+            <markdown [data]="project.description" />
 
             <div class="project-actions">
             <a *ngIf="project.github" 

@@ -16,7 +16,7 @@ export interface Project {
   types: ProjectType[];
   status: ProjectStatus;
   completionDate?: string;
-  description: string[];
+  description: string;
   tags?: string[];
   images?: string[];
   
