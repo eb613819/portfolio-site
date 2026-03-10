@@ -8,7 +8,9 @@
   padding: 1rem;
   box-shadow: var(--shadow-lg);
   transition: width 0.3s;
-  overflow: hidden;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .filter-panel.collapsed {
@@ -32,6 +34,13 @@
   text-transform: uppercase;
 
   color: var(--text-secondary);
+}
+
+.filters {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
 }
 
 .clear-btn {
@@ -80,10 +89,11 @@
 .filter-chip.types {
   background-color: #374151;
   color: #f9fafb;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
   padding: 0.15rem 0.45rem;
+  text-wrap: nowrap;
 }
 
 .filter-chip.type {

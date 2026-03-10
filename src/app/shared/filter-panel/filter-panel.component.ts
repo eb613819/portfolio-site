@@ -25,6 +25,17 @@ export class FilterPanelComponent {
     }
   }
 
+  ngOnChanges() {
+    const tagsGroup = this.groups.find(g => g.key === 'tags');
+    const typesGroup = this.groups.find(g => g.key === 'types');
+    if (tagsGroup) {
+      tagsGroup.options.sort((a, b) => a.label.localeCompare(b.label));
+    }
+    if (typesGroup) {
+      typesGroup.options.sort((a, b) => a.label.localeCompare(b.label));
+    }
+  }
+
   toggle(groupKey: string, value: string) {
     const current: string[] = this.state[groupKey] ?? [];
 
