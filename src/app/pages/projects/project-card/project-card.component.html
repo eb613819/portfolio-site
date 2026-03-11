@@ -6,6 +6,7 @@
         (click)="toggleCard(project)"
         >
         <div class="reg-content">
+            
             <!-- Header -->
             <header class="card-header">
                 <div class="type-label">
@@ -19,6 +20,7 @@
                 </div>
 
                 <h3 class="project-title">{{ project.title }}</h3>
+                
             </header>
 
             <!-- Image -->
@@ -38,64 +40,76 @@
                     {{ project.status }}
                 </span>
                 </div>
-
                 <div class="tags">
-                <span *ngFor="let t of project.tags" class="tag">
-                    {{ t }}
-                </span>
+                    <span *ngFor="let t of project.tags" class="tag">
+                        {{ t }}
+                    </span>
                 </div>
+                <span class="expand-hint">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 12 12">
+                        <polygon points="0,0 12,0 0,12" fill="currentColor"/>
+                    </svg>
+                </span>
             </div>
         </div>
-        <!-- Expanded Content -->
-        <div class="card-description" *ngIf="isExpanded(project)" (click)="$event.stopPropagation()">
-            <markdown [data]="project.description" />
-
-            <div class="project-actions">
-            <a *ngIf="project.github" 
-                [href]="project.github" 
-                target="_blank" 
-                class="platform-button github" 
-                (click)="$event.stopPropagation()"
-            >
-                <img src="icons/github-mark.png" alt="GitHub logo" class="platform-icon" />
-                <img src="icons/github.png" alt="GitHub logo" class="platform-icon" />
-            </a>
-
-            <a *ngIf="project.printables" 
-                [href]="project.printables" 
-                target="_blank" 
-                class="platform-button printables" 
-                (click)="$event.stopPropagation()"
-            >
-                <img src="icons/printables.svg" alt="Printables logo" class="platform-icon" />
-            </a>
-
-            <a *ngIf="project.dockerhub" 
-                [href]="project.dockerhub" 
-                target="_blank" 
-                class="platform-button dockerhub" 
-                (click)="$event.stopPropagation()"
-            >
-                <img src="icons/docker.svg" alt="DockerHub logo" class="platform-icon" />
-            </a>
-
-            <a *ngIf="project.website" 
-                [href]="project.website" 
-                target="_blank" 
-                class="platform-button website" 
-                (click)="$event.stopPropagation()"
-            >
-                Website
-            </a>
-
-            <a *ngIf="project.detailsPage"
-                [href]="project.detailsPage"
-                class="platform-button detail"
-                (click)="$event.stopPropagation();"
-            >
-                View Details →
-            </a>
-            </div>
-        </div>
+        
     </div>
+</div>
+
+<div class="modal-overlay" *ngIf="expandedProject" (click)="expandedProject = null">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-close-row">
+        <button class="modal-close" (click)="expandedProject = null">✕</button>
+    </div>
+
+    <header class="card-header">
+      <div class="type-label">
+        <span
+          *ngFor="let t of expandedProject.types"
+          class="type"
+          [ngClass]="getTypeClass(t)"
+        >
+          {{ t }}
+        </span>
+      </div>
+      <h3 class="project-title">{{ expandedProject.title }}</h3>
+    </header>
+
+    <div class="modal-body">
+      <app-project-carousel
+        [images]="expandedProject.images || []"
+        [expanded]="true"
+      ></app-project-carousel>
+
+      <div class="project-meta">
+        <div class="status-wrap">
+          <span class="status" [ngClass]="expandedProject.status.toLowerCase().replace(' ', '-')">
+            {{ expandedProject.status }}
+          </span>
+        </div>
+        <div class="tags">
+          <span *ngFor="let t of expandedProject.tags" class="tag">{{ t }}</span>
+        </div>
+      </div>
+
+      <div class="card-description">
+        <markdown [data]="expandedProject.description" />
+
+        <div class="project-actions">
+          <a *ngIf="expandedProject.github" [href]="expandedProject.github" target="_blank" class="platform-button github">
+            <img src="icons/github-mark.png" alt="GitHub logo" class="platform-icon" />
+            <img src="icons/github.png" alt="GitHub logo" class="platform-icon" />
+          </a>
+          <a *ngIf="expandedProject.printables" [href]="expandedProject.printables" target="_blank" class="platform-button printables">
+            <img src="icons/printables.svg" alt="Printables logo" class="platform-icon" />
+          </a>
+          <a *ngIf="expandedProject.dockerhub" [href]="expandedProject.dockerhub" target="_blank" class="platform-button dockerhub">
+            <img src="icons/docker.svg" alt="DockerHub logo" class="platform-icon" />
+          </a>
+          <a *ngIf="expandedProject.website" [href]="expandedProject.website" target="_blank" class="platform-button website">Website</a>
+          <a *ngIf="expandedProject.detailsPage" [href]="expandedProject.detailsPage" class="platform-button detail">View Details →</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

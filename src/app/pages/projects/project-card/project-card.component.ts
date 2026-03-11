@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Project } from '../../../interfaces/project.interface';
 import { ProjectCarouselComponent } from '../project-carousel/project-carousel.component';
@@ -12,6 +12,11 @@ import { MarkdownModule } from 'ngx-markdown';
   styleUrl: './project-card.component.css',
 })
 export class ProjectCardComponent {
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.expandedProject = null;
+  }
+  
   @Input() projects: Project[] = [];
   expandedProject: Project | null = null;
 
