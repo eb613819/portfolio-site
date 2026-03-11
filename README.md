@@ -2,6 +2,8 @@
 
 This repository contains the source code for my personal portfolio website.
 
+> [Live Site](evanbrooks.me)
+
 The site highlights selected projects, technical experience, and hands-on work across software development, infrastructure, electronics, and fabrication. It provides an overview of my skills, interests, and the types of problems I enjoy solving.
 
 ---
@@ -32,8 +34,7 @@ The site highlights selected projects, technical experience, and hands-on work a
 Project and experience data are stored in a separate repository and fetched at runtime via HTTP requests.
 This separates site content from the presentation layer, allowing updates to project data without modifying or redeploying the application code.
 
-Data is fetched from:
-`https://github.com/eb613819/portfolio-site-data`
+Data is fetched from a [data repo](https://github.com/eb613819/portfolio-site-data).
 
 ---
 
