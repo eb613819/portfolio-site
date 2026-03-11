@@ -16,7 +16,7 @@
   display: block;
   object-fit: cover;
   border-radius: var(--radius-md);
-  cursor: default;
+  cursor: pointer;
 }
 
 .prev-btn,

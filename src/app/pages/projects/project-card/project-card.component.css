@@ -211,6 +211,10 @@
   animation: modal-expand 0.25s ease forwards;
 }
 
+::ng-deep .modal .carousel-container {
+  height: auto !important;
+}
+
 .modal-body {
   display: flex;
   flex-direction: column;
