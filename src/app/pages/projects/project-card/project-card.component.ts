@@ -61,6 +61,6 @@ export class ProjectCardComponent {
     }
     if (p.learned)       sections.push(`## What I Learned\n${p.learned}`);
 
-    return sections.join('\n\n');
+    return `---\n${sections.join('\n\n')}\n\n---`;
   }
 }
