@@ -91,23 +91,32 @@
       </div>
 
       <div class="card-description">
+        <div class="project-actions">
+          <ng-container *ngTemplateOutlet="projectActions" />
+        </div>
+
         <markdown [data]="expandedProjectMarkdown" />
 
         <div class="project-actions">
-          <a *ngIf="expandedProject.github" [href]="expandedProject.github" target="_blank" class="platform-button github">
-            <img src="icons/github-mark.png" alt="GitHub logo" class="platform-icon" />
-            <img src="icons/github.png" alt="GitHub logo" class="platform-icon" />
-          </a>
-          <a *ngIf="expandedProject.printables" [href]="expandedProject.printables" target="_blank" class="platform-button printables">
-            <img src="icons/printables.svg" alt="Printables logo" class="platform-icon" />
-          </a>
-          <a *ngIf="expandedProject.dockerhub" [href]="expandedProject.dockerhub" target="_blank" class="platform-button dockerhub">
-            <img src="icons/docker.svg" alt="DockerHub logo" class="platform-icon" />
-          </a>
-          <a *ngIf="expandedProject.website" [href]="expandedProject.website" target="_blank" class="platform-button website">Website</a>
-          <a *ngIf="expandedProject.detailsPage" [href]="expandedProject.detailsPage" class="platform-button detail">View Details →</a>
+          <ng-container *ngTemplateOutlet="projectActions" />
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #projectActions>
+  @let project = expandedProject!;
+  <a *ngIf="project.github" [href]="project.github" target="_blank" class="platform-button github">
+    <img src="icons/github-mark.png" alt="GitHub logo" class="platform-icon" />
+    <img src="icons/github.png" alt="GitHub logo" class="platform-icon" />
+  </a>
+  <a *ngIf="project.printables" [href]="project.printables" target="_blank" class="platform-button printables">
+    <img src="icons/printables.svg" alt="Printables logo" class="platform-icon" />
+  </a>
+  <a *ngIf="project.dockerhub" [href]="project.dockerhub" target="_blank" class="platform-button dockerhub">
+    <img src="icons/docker.svg" alt="DockerHub logo" class="platform-icon" />
+  </a>
+  <a *ngIf="project.website" [href]="project.website" target="_blank" class="platform-button website">Website</a>
+  <a *ngIf="project.detailsPage" [href]="project.detailsPage" class="platform-button detail">View Details →</a>
+</ng-template>
