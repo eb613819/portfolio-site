@@ -39,4 +39,28 @@ export class ProjectCardComponent {
   getTypeClass(type: string): string {
     return 'type-' + type.toLowerCase().replace(/[\s\/]/g, '-');
   }
+
+  get expandedProjectMarkdown(): string {
+    const p = this.expandedProject;
+    if (!p) return '';
+
+    const sections: string[] = [];
+
+    if (p.overview)      sections.push(`## Overview\n${p.overview}`);
+    if (p.motivation)    sections.push(`## Motivation\n${p.motivation}`);
+    if (p.plan)          sections.push(`## Plan\n${p.plan}`);
+    if (p.architecture)  sections.push(`## Architecture\n${p.architecture}`);
+    if (p.hardware?.length) sections.push(`## Hardware\n${p.hardware.map(h => `- ${h}`).join('\n')}`);
+    if (p.design)        sections.push(`## Design\n${p.design}`);
+    if (p.features?.length) sections.push(`## Features\n${p.features.map(f => `- ${f}`).join('\n')}`);
+    if (p.challenges?.length) {
+      const lines = p.challenges.map((c, i) =>
+        `${i + 1}. **Problem:** ${c.problem}\n\n   **Solution:** ${c.solution}`
+      ).join('\n\n');
+      sections.push(`## Challenges\n${lines}`);
+    }
+    if (p.learned)       sections.push(`## What I Learned\n${p.learned}`);
+
+    return sections.join('\n\n');
+  }
 }
