@@ -11,12 +11,28 @@ export type ProjectStatus =
     | 'In Progress'
     | 'Not Started'
 
+export interface ProjectChallenge {
+  problem: string;
+  solution: string;
+}
+
 export interface Project {
   title: string;
   types: ProjectType[];
   status: ProjectStatus;
   completionDate?: string;
-  description: string;
+  
+  //description fields
+  overview: string;
+  motivation?: string;
+  plan?: string;
+  architecture?: string;
+  hardware?: string[];
+  design?: string;
+  features?: string[];
+  challenges?: ProjectChallenge[];
+  learned?: string;
+
   tags?: string[];
   images?: string[];
   

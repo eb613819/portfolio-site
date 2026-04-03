@@ -91,7 +91,7 @@
       </div>
 
       <div class="card-description">
-        <markdown [data]="expandedProject.description" />
+        <markdown [data]="expandedProjectMarkdown" />
 
         <div class="project-actions">
           <a *ngIf="expandedProject.github" [href]="expandedProject.github" target="_blank" class="platform-button github">
