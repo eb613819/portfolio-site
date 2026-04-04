@@ -38,6 +38,24 @@ Data is fetched from a [data repo](https://github.com/eb613819/portfolio-site-da
 
 ---
 
+## Portfolio Editor
+
+The site includes a built-in content editor at [evanbrooks.me/editor](https://evanbrooks.me/editor) for managing project and experience data without manually editing JSON.
+
+### Features
+- Browse and edit all project entries via a structured form
+- Create new project entries
+- Upload images directly to the data repository
+- Changes are committed directly to the data repository via the GitHub API
+
+### Authentication
+The editor uses GitHub OAuth for authentication. The OAuth token exchange is handled by a dedicated Cloudflare Worker ([portfolio-oauth-worker](https://github.com/eb613819/portfolio-oauth-worker)) which keeps the client secret out of the frontend code.
+
+### Local Development
+To run the editor locally, update the `REDIRECT_URI` in `auth.service.ts` to `http://localhost:4200/editor` and register `http://localhost:4200/editor` as a valid callback URL in the GitHub OAuth app settings.
+
+---
+
 ## Local Development
 
 To run the site locally, install dependencies and run the development server:
