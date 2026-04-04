@@ -1,22 +1,217 @@
-<div class="editor">
-  <div *ngIf="loading">Loading...</div>
-  <div *ngIf="error">{{ error }}</div>
+<div class="mobile-block">
+  <p>The portfolio editor is only available on desktop.</p>
+</div>
 
-  <div *ngIf="!isLoggedIn && !loading">
-    <h2>Portfolio Editor</h2>
-    <button (click)="login()">Login with GitHub</button>
-  </div>
+<div class="editor-wrapper">
+    <div class="editor-layout" *ngIf="isLoggedIn; else loginScreen">
 
-  <div *ngIf="isLoggedIn && !loading">
-    <button (click)="logout()">Logout</button>
-    <h2>Projects</h2>
-    <ul>
-      <li *ngFor="let p of projects" (click)="selectProject(p)">
-        {{ p.title }}
-      </li>
-    </ul>
-    <div *ngIf="selectedProject">
-      Selected: {{ selectedProject.title }}
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+        <span>Projects</span>
+        <button class="logout-btn" (click)="logout()">Sign out</button>
+        </div>
+        <ul class="project-list">
+        <li
+            *ngFor="let p of projects"
+            class="project-item"
+            [class.active]="selectedProject?.title === p.title"
+            (click)="selectProject(p)"
+        >
+            <span class="project-item-title">{{ p.title }}</span>
+            <span class="project-item-status" [class]="p.status.toLowerCase().replace(' ', '-')">{{ p.status }}</span>
+        </li>
+        </ul>
+        <button class="new-project-btn" (click)="newProject()">+ New Project</button>
+    </aside>
+
+    <!-- Main -->
+    <main class="editor-main">
+        <div *ngIf="loading" class="state-msg">Loading...</div>
+        <div *ngIf="error" class="state-msg error">{{ error }}</div>
+        <div *ngIf="saveSuccess" class="state-msg success">Saved successfully.</div>
+
+        <div *ngIf="!selectedProject && !loading" class="state-msg muted">
+        Select a project to edit or create a new one.
+        </div>
+
+        <div *ngIf="selectedProject" class="editor-form-card">
+            <div class="editor-form">
+
+                <!-- Toolbar -->
+                <div class="form-toolbar">
+                    <span class="unsaved-indicator" *ngIf="hasUnsavedChanges">● Unsaved changes</span>
+                    <button class="save-btn" (click)="save()" [disabled]="saving || !hasUnsavedChanges">
+                    {{ saving ? 'Saving...' : 'Save' }}
+                    </button>
+                </div>
+
+                <!-- Title -->
+                <div class="form-field">
+                    <label>Title</label>
+                    <input type="text" [(ngModel)]="selectedProject.title" (ngModelChange)="onFieldChange()" />
+                </div>
+
+                <!-- Types -->
+                <div class="form-field">
+                    <label>Types</label>
+                    <div class="checkbox-group">
+                    <label *ngFor="let t of allTypes" class="checkbox-label">
+                        <input type="checkbox" [checked]="hasType(t)" (change)="toggleType(t)" />
+                        {{ t }}
+                    </label>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="form-field">
+                    <label>Status</label>
+                    <select [(ngModel)]="selectedProject.status" (ngModelChange)="onFieldChange()">
+                    <option *ngFor="let s of allStatuses" [value]="s">{{ s }}</option>
+                    </select>
+                </div>
+
+                <!-- Completion Date -->
+                <div class="form-field" *ngIf="selectedProject.status === 'Completed'">
+                    <label>Completion Date</label>
+                    <input type="text" placeholder="MM-DD-YYYY" [(ngModel)]="selectedProject.completionDate" (ngModelChange)="onFieldChange()" />
+                </div>
+
+                <!-- Overview -->
+                <div class="form-field">
+                    <label>Overview</label>
+                    <textarea rows="4" [(ngModel)]="selectedProject.overview" (ngModelChange)="onFieldChange()"></textarea>
+                </div>
+
+                <!-- Motivation -->
+                <div class="form-field">
+                    <label>Motivation <span class="optional">optional</span></label>
+                    <textarea rows="3" [(ngModel)]="selectedProject.motivation" (ngModelChange)="onFieldChange()"></textarea>
+                </div>
+
+                <!-- Plan -->
+                <div class="form-field" *ngIf="showPlan()">
+                    <label>Plan</label>
+                    <textarea rows="4" [(ngModel)]="selectedProject.plan" (ngModelChange)="onFieldChange()"></textarea>
+                </div>
+
+                <!-- Architecture -->
+                <div class="form-field">
+                    <label>Architecture <span class="optional">optional</span></label>
+                    <textarea rows="4" [(ngModel)]="selectedProject.architecture" (ngModelChange)="onFieldChange()"></textarea>
+                </div>
+
+                <!-- Hardware -->
+                <div class="form-field">
+                    <label>Hardware <span class="optional">optional</span></label>
+                    <div class="list-items" *ngIf="selectedProject.hardware?.length">
+                    <div class="list-item" *ngFor="let h of selectedProject.hardware; let i = index">
+                        <span>{{ h }}</span>
+                        <button class="remove-btn" (click)="removeHardware(i)">✕</button>
+                    </div>
+                    </div>
+                    <div class="list-input">
+                    <input type="text" [(ngModel)]="hardwareInput" placeholder="Add component..." (keydown.enter)="addHardware()" />
+                    <button (click)="addHardware()">Add</button>
+                    </div>
+                </div>
+
+                <!-- Design -->
+                <div class="form-field">
+                    <label>Design <span class="optional">optional</span></label>
+                    <textarea rows="4" [(ngModel)]="selectedProject.design" (ngModelChange)="onFieldChange()"></textarea>
+                </div>
+
+                <!-- Features -->
+                <div class="form-field">
+                    <label>Features <span class="optional">optional</span></label>
+                    <div class="list-items" *ngIf="selectedProject.features?.length">
+                    <div class="list-item" *ngFor="let f of selectedProject.features; let i = index">
+                        <span>{{ f }}</span>
+                        <button class="remove-btn" (click)="removeFeature(i)">✕</button>
+                    </div>
+                    </div>
+                    <div class="list-input">
+                    <input type="text" [(ngModel)]="featureInput" placeholder="Add feature..." (keydown.enter)="addFeature()" />
+                    <button (click)="addFeature()">Add</button>
+                    </div>
+                </div>
+
+                <!-- Challenges -->
+                <div class="form-field" *ngIf="showChallenges()">
+                    <label>Challenges <span class="optional">optional</span></label>
+                    <div class="challenge-item" *ngFor="let c of selectedProject.challenges; let i = index">
+                    <div class="challenge-header">
+                        <span>Challenge {{ i + 1 }}</span>
+                        <button class="remove-btn" (click)="removeChallenge(i)">✕</button>
+                    </div>
+                    <label>Problem</label>
+                    <textarea rows="2" [(ngModel)]="c.problem" (ngModelChange)="onFieldChange()"></textarea>
+                    <label>Solution</label>
+                    <textarea rows="2" [(ngModel)]="c.solution" (ngModelChange)="onFieldChange()"></textarea>
+                    </div>
+                    <button class="add-btn" (click)="addChallenge()">+ Add Challenge</button>
+                </div>
+
+                <!-- Learned -->
+                <div class="form-field" *ngIf="showLearned()">
+                    <label>What I Learned <span class="optional">optional</span></label>
+                    <textarea rows="3" [(ngModel)]="selectedProject.learned" (ngModelChange)="onFieldChange()"></textarea>
+                </div>
+
+                <!-- Tags -->
+                <div class="form-field">
+                    <label>Tags</label>
+                    <div class="tags-list" *ngIf="selectedProject.tags?.length">
+                    <span class="tag-item" *ngFor="let t of selectedProject.tags; let i = index">
+                        {{ t }} <button class="remove-btn inline" (click)="removeTag(i)">✕</button>
+                    </span>
+                    </div>
+                    <div class="list-input">
+                    <input type="text" [(ngModel)]="tagInput" placeholder="Add tag..." (keydown.enter)="addTag()" />
+                    <button (click)="addTag()">Add</button>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div class="form-field">
+                    <label>GitHub <span class="optional">optional</span></label>
+                    <input type="text" [(ngModel)]="selectedProject.github" (ngModelChange)="onFieldChange()" />
+                </div>
+                <div class="form-field">
+                    <label>Printables <span class="optional">optional</span></label>
+                    <input type="text" [(ngModel)]="selectedProject.printables" (ngModelChange)="onFieldChange()" />
+                </div>
+                <div class="form-field">
+                    <label>DockerHub <span class="optional">optional</span></label>
+                    <input type="text" [(ngModel)]="selectedProject.dockerhub" (ngModelChange)="onFieldChange()" />
+                </div>
+                <div class="form-field">
+                    <label>Website <span class="optional">optional</span></label>
+                    <input type="text" [(ngModel)]="selectedProject.website" (ngModelChange)="onFieldChange()" />
+                </div>
+
+                <!-- Images -->
+                <div class="form-field">
+                    <label>Images</label>
+                    <div class="images-list" *ngIf="selectedProject.images?.length">
+                    <div class="image-item" *ngFor="let img of selectedProject.images; let i = index">
+                        <img [src]="img" alt="Project image" />
+                        <button class="remove-btn" (click)="removeImage(i)">✕</button>
+                    </div>
+                    </div>
+                    <input type="file" accept="image/*" (change)="uploadImage($event)" />
+                </div>
+
+            </div>
+        </div>
+    </main>
     </div>
-  </div>
+
+    <ng-template #loginScreen>
+    <div class="login-screen">
+        <h2>Portfolio Editor</h2>
+        <button class="login-btn" (click)="login()">Login with GitHub</button>
+    </div>
+    </ng-template>
 </div>

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   private readonly WORKER_URL = 'https://portfolio-oauth.eb613819.workers.dev';
   private readonly CLIENT_ID = 'Ov23liPk49fPrfRTRyzH';
-  private readonly REDIRECT_URI = 'https://evanbrooks.me/editor';
+  private readonly REDIRECT_URI = 'http://localhost:4200/editor';
   private readonly TOKEN_KEY = 'gh_token';
 
   login(): void {
@@ -22,7 +22,10 @@ export class AuthService {
     const response = await fetch(`${this.WORKER_URL}/oauth/token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code }),
+      body: JSON.stringify({ 
+        code,
+        redirect_uri: this.REDIRECT_URI,
+      }),
     });
 
     const data = await response.json();
