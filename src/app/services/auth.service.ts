@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   private readonly WORKER_URL = 'https://portfolio-oauth.eb613819.workers.dev';
   private readonly CLIENT_ID = 'Ov23liPk49fPrfRTRyzH';
-  private readonly REDIRECT_URI = 'http://localhost:4200/editor';
+  private readonly REDIRECT_URI = 'https://evanbrooks.me/editor';
   private readonly TOKEN_KEY = 'gh_token';
 
   login(): void {
