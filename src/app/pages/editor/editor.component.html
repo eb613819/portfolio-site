@@ -1,0 +1,22 @@
+<div class="editor">
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="error">{{ error }}</div>
+
+  <div *ngIf="!isLoggedIn && !loading">
+    <h2>Portfolio Editor</h2>
+    <button (click)="login()">Login with GitHub</button>
+  </div>
+
+  <div *ngIf="isLoggedIn && !loading">
+    <button (click)="logout()">Logout</button>
+    <h2>Projects</h2>
+    <ul>
+      <li *ngFor="let p of projects" (click)="selectProject(p)">
+        {{ p.title }}
+      </li>
+    </ul>
+    <div *ngIf="selectedProject">
+      Selected: {{ selectedProject.title }}
+    </div>
+  </div>
+</div>
