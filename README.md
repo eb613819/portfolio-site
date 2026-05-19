@@ -49,7 +49,7 @@ The site includes a built-in content editor at [evanbrooks.me/editor](https://ev
 - Changes are committed directly to the data repository via the GitHub API
 
 ### Authentication
-The editor uses GitHub OAuth for authentication. The OAuth token exchange is handled by a dedicated Cloudflare Worker ([portfolio-oauth-worker](https://github.com/eb613819/portfolio-oauth-worker)) which keeps the client secret out of the frontend code.
+The editor uses GitHub OAuth for authentication. The OAuth token exchange is handled by a dedicated Cloudflare Worker ([portfolio-site-oauth-worker](https://github.com/eb613819/portfolio-site-oauth-worker)) which keeps the client secret out of the frontend code.
 
 ### Local Development
 To run the editor locally, update the `REDIRECT_URI` in `auth.service.ts` to `http://localhost:4200/editor` and register `http://localhost:4200/editor` as a valid callback URL in the GitHub OAuth app settings.
