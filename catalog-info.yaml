@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: portfolio-site
+  annotations:
+    github.com/project-slug: eb613819/portfolio-site
+spec:
+  type: other
+  lifecycle: unknown
+  owner: eb613819
